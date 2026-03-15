@@ -1,11 +1,60 @@
 id,name,description,price,category,image,brand,stock
-1,Whey Protein Isolate,High-quality whey protein isolate for muscle recovery and lean muscle growth,39.99,Protein,https://placehold.co/600x400,OptiNutrition,120
-2,Vitamin D3 5000 IU,Supports immune health and bone strength with high-potency vitamin D3,14.99,Vitamins,https://placehold.co/600x400,NaturePlus,200
-3,Omega-3 Fish Oil,Rich in EPA and DHA to support heart and brain health,19.99,Omega Supplements,https://placehold.co/600x400,HealthSea,150
-4,Multivitamin Daily Formula,Complete multivitamin with essential nutrients for daily health,24.99,Vitamins,https://placehold.co/600x400,WellLife,180
-5,Creatine Monohydrate Powder,Enhances strength and power during high-intensity workouts,29.99,Performance,https://placehold.co/600x400,ProFuel,100
-6,Magnesium Glycinate,Supports muscle relaxation and improved sleep quality,17.99,Minerals,https://placehold.co/600x400,CalmBody,160
-7,Probiotic 50 Billion CFU,Promotes gut health with multiple probiotic strains,21.99,Probiotics,https://placehold.co/600x400,GutBalance,140
-8,Plant-Based Protein Powder,Vegan protein blend made from pea and brown rice protein,34.99,Protein,https://placehold.co/600x400,GreenFuel,90
-9,Ashwagandha Root Extract,Adaptogenic herb that supports stress reduction and mood balance,16.99,Herbal Supplements,https://placehold.co/600x400,HerbalZen,130
-10,Collagen Peptides Powder,Supports skin, hair, nails, and joint health,27.99,Beauty Supplements,https://placehold.co/600x400,GlowHealth,110
+1,Whey Protein Isolate,Fast absorbing whey protein isolate for muscle recovery,39.99,Protein,https://source.unsplash.com/600x400/?whey-protein&sig=1,OptiNutrition,120
+2,Plant Protein Blend,Vegan protein made from pea and brown rice protein,34.99,Protein,https://source.unsplash.com/600x400/?plant-protein&sig=2,GreenFuel,90
+3,Casein Protein Powder,Slow digesting nighttime protein for muscle repair,37.99,Protein,https://source.unsplash.com/600x400/?protein-powder&sig=3,ProActive,75
+4,Mass Gainer Formula,High calorie protein formula for muscle gain,49.99,Protein,https://source.unsplash.com/600x400/?fitness-supplement&sig=4,MuscleForge,80
+5,Hydrolyzed Whey Protein,Ultra fast digesting hydrolyzed whey protein,44.99,Protein,https://source.unsplash.com/600x400/?whey-protein-powder&sig=5,OptiNutrition,60
+
+6,Creatine Monohydrate Powder,Boost strength and power output during workouts,29.99,Performance,https://source.unsplash.com/600x400/?creatine&sig=6,ProFuel,100
+7,Pre Workout Energy Blend,Boosts energy focus and workout endurance,32.99,Performance,https://source.unsplash.com/600x400/?pre-workout&sig=7,AlphaEnergy,85
+8,BCAA Recovery Drink,Essential amino acids for muscle recovery,24.99,Performance,https://source.unsplash.com/600x400/?bcaa&sig=8,RecoverX,110
+9,L-Glutamine Powder,Supports muscle recovery and immune function,19.99,Performance,https://source.unsplash.com/600x400/?amino-acid-supplement&sig=9,ProFuel,95
+10,Beta Alanine Powder,Improves endurance during high intensity exercise,21.99,Performance,https://source.unsplash.com/600x400/?fitness-supplement-powder&sig=10,AlphaEnergy,70
+
+11,Multivitamin Daily Complex,Complete daily multivitamin for overall health,24.99,Vitamins,https://source.unsplash.com/600x400/?multivitamin&sig=11,WellLife,180
+12,Vitamin D3 5000 IU,Supports immune and bone health,14.99,Vitamins,https://source.unsplash.com/600x400/?vitamin-d-supplement&sig=12,NaturePlus,200
+13,Vitamin C Immune Support,High potency vitamin C antioxidant supplement,12.99,Vitamins,https://source.unsplash.com/600x400/?vitamin-c-tablets&sig=13,NaturePlus,220
+14,Vitamin B Complex,Supports metabolism and energy production,18.99,Vitamins,https://source.unsplash.com/600x400/?vitamin-b-complex&sig=14,WellLife,160
+15,Vitamin K2 Capsules,Supports cardiovascular and bone health,17.99,Vitamins,https://source.unsplash.com/600x400/?vitamin-supplements&sig=15,NaturePlus,140
+
+16,Magnesium Glycinate,Promotes muscle relaxation and better sleep,17.99,Minerals,https://source.unsplash.com/600x400/?magnesium-supplement&sig=16,CalmBody,160
+17,Zinc Immune Support,Essential mineral for immunity and metabolism,13.99,Minerals,https://source.unsplash.com/600x400/?zinc-supplement&sig=17,NaturePlus,150
+18,Iron Energy Formula,Supports red blood cell production and energy,15.99,Minerals,https://source.unsplash.com/600x400/?iron-supplement&sig=18,WellLife,120
+19,Calcium Bone Support,Promotes strong bones and teeth,14.99,Minerals,https://source.unsplash.com/600x400/?calcium-supplement&sig=19,BoneHealth,130
+20,Potassium Electrolyte Capsules,Maintains hydration and electrolyte balance,16.99,Minerals,https://source.unsplash.com/600x400/?electrolyte-supplement&sig=20,HydraFuel,115
+
+21,Omega 3 Fish Oil,Supports heart brain and joint health,19.99,Omega Supplements,https://source.unsplash.com/600x400/?fish-oil-capsules&sig=21,HealthSea,150
+22,Krill Oil Capsules,Highly absorbable omega fatty acids supplement,26.99,Omega Supplements,https://source.unsplash.com/600x400/?krill-oil&sig=22,OceanVital,100
+23,Flaxseed Oil Capsules,Plant based omega 3 fatty acids source,18.99,Omega Supplements,https://source.unsplash.com/600x400/?flaxseed-oil&sig=23,GreenFuel,90
+24,Algae Omega 3 Vegan,Plant based omega supplement from algae oil,29.99,Omega Supplements,https://source.unsplash.com/600x400/?algae-oil&sig=24,GreenFuel,80
+25,Omega 3 Triple Strength,High potency EPA DHA fish oil supplement,24.99,Omega Supplements,https://source.unsplash.com/600x400/?omega-3-supplement&sig=25,HealthSea,110
+
+26,Probiotic 50 Billion CFU,Supports gut microbiome and digestion,21.99,Probiotics,https://source.unsplash.com/600x400/?probiotic-capsules&sig=26,GutBalance,140
+27,Probiotic Digestive Blend,Multiple probiotic strains for digestion,22.99,Probiotics,https://source.unsplash.com/600x400/?probiotic-supplement&sig=27,GutBalance,130
+28,Prebiotic Fiber Powder,Feeds beneficial gut bacteria,19.99,Probiotics,https://source.unsplash.com/600x400/?fiber-supplement&sig=28,WellLife,125
+29,Probiotic Immune Formula,Supports digestive and immune health,23.99,Probiotics,https://source.unsplash.com/600x400/?gut-health-supplement&sig=29,GutBalance,100
+30,Probiotic Gummies,Tasty probiotic supplement for digestive support,20.99,Probiotics,https://source.unsplash.com/600x400/?probiotic-gummies&sig=30,GutBalance,90
+
+31,Ashwagandha Root Extract,Adaptogenic herb for stress reduction,16.99,Herbal Supplements,https://source.unsplash.com/600x400/?ashwagandha&sig=31,HerbalZen,130
+32,Turmeric Curcumin Capsules,Anti inflammatory herbal supplement,18.99,Herbal Supplements,https://source.unsplash.com/600x400/?turmeric-capsules&sig=32,HerbalZen,120
+33,Ginseng Energy Capsules,Supports energy and mental focus,21.99,Herbal Supplements,https://source.unsplash.com/600x400/?ginseng-supplement&sig=33,HerbalZen,95
+34,Ginkgo Biloba Extract,Supports memory and cognitive health,19.99,Herbal Supplements,https://source.unsplash.com/600x400/?ginkgo-biloba&sig=34,HerbalZen,85
+35,Echinacea Immune Support,Herbal immune boosting supplement,17.99,Herbal Supplements,https://source.unsplash.com/600x400/?echinacea&sig=35,HerbalZen,100
+
+36,Collagen Peptides Powder,Supports skin hair nails and joints,27.99,Beauty Supplements,https://source.unsplash.com/600x400/?collagen-powder&sig=36,GlowHealth,110
+37,Biotin Hair Growth Capsules,Supports hair skin and nail health,14.99,Beauty Supplements,https://source.unsplash.com/600x400/?biotin-supplement&sig=37,GlowHealth,140
+38,Hyaluronic Acid Capsules,Promotes skin hydration and elasticity,19.99,Beauty Supplements,https://source.unsplash.com/600x400/?hyaluronic-acid-supplement&sig=38,GlowHealth,95
+39,Marine Collagen Capsules,Premium collagen supplement for skin health,29.99,Beauty Supplements,https://source.unsplash.com/600x400/?marine-collagen&sig=39,GlowHealth,85
+40,Keratin Beauty Formula,Supports hair strength and growth,22.99,Beauty Supplements,https://source.unsplash.com/600x400/?hair-vitamin&sig=40,GlowHealth,75
+
+41,Green Tea Fat Burner,Supports metabolism and fat oxidation,23.99,Weight Management,https://source.unsplash.com/600x400/?green-tea-supplement&sig=41,LeanFit,100
+42,L Carnitine Liquid,Burn fat and improve workout performance,24.99,Weight Management,https://source.unsplash.com/600x400/?l-carnitine&sig=42,LeanFit,90
+43,CLA Fat Burner Capsules,Supports fat metabolism and weight management,21.99,Weight Management,https://source.unsplash.com/600x400/?cla-supplement&sig=43,LeanFit,80
+44,Apple Cider Vinegar Capsules,Supports digestion and metabolism,18.99,Weight Management,https://source.unsplash.com/600x400/?apple-cider-vinegar-capsules&sig=44,LeanFit,120
+45,Metabolism Boost Capsules,Natural ingredients to support metabolism,22.99,Weight Management,https://source.unsplash.com/600x400/?diet-supplement&sig=45,LeanFit,95
+
+46,Electrolyte Hydration Powder,Replenishes electrolytes after workouts,19.99,Hydration,https://source.unsplash.com/600x400/?electrolyte-drink&sig=46,HydraFuel,140
+47,Sports Hydration Tablets,Fast dissolving electrolyte tablets,17.99,Hydration,https://source.unsplash.com/600x400/?hydration-tablets&sig=47,HydraFuel,130
+48,Coconut Electrolyte Drink Mix,Natural hydration drink powder,18.99,Hydration,https://source.unsplash.com/600x400/?coconut-water-powder&sig=48,HydraFuel,120
+49,Recovery Hydration Formula,Electrolytes and minerals for recovery,21.99,Hydration,https://source.unsplash.com/600x400/?sports-drink-powder&sig=49,HydraFuel,110
+50,Advanced Hydration Mix,Electrolyte powder for endurance athletes,22.99,Hydration,https://source.unsplash.com/600x400/?hydration-supplement&sig=50,HydraFuel,100
