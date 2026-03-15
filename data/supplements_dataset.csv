@@ -1,0 +1,11 @@
+id,name,description,price,category,image,brand,stock
+1,Whey Protein Isolate,High-quality whey protein isolate for muscle recovery and lean muscle growth,39.99,Protein,https://placehold.co/600x400,OptiNutrition,120
+2,Vitamin D3 5000 IU,Supports immune health and bone strength with high-potency vitamin D3,14.99,Vitamins,https://placehold.co/600x400,NaturePlus,200
+3,Omega-3 Fish Oil,Rich in EPA and DHA to support heart and brain health,19.99,Omega Supplements,https://placehold.co/600x400,HealthSea,150
+4,Multivitamin Daily Formula,Complete multivitamin with essential nutrients for daily health,24.99,Vitamins,https://placehold.co/600x400,WellLife,180
+5,Creatine Monohydrate Powder,Enhances strength and power during high-intensity workouts,29.99,Performance,https://placehold.co/600x400,ProFuel,100
+6,Magnesium Glycinate,Supports muscle relaxation and improved sleep quality,17.99,Minerals,https://placehold.co/600x400,CalmBody,160
+7,Probiotic 50 Billion CFU,Promotes gut health with multiple probiotic strains,21.99,Probiotics,https://placehold.co/600x400,GutBalance,140
+8,Plant-Based Protein Powder,Vegan protein blend made from pea and brown rice protein,34.99,Protein,https://placehold.co/600x400,GreenFuel,90
+9,Ashwagandha Root Extract,Adaptogenic herb that supports stress reduction and mood balance,16.99,Herbal Supplements,https://placehold.co/600x400,HerbalZen,130
+10,Collagen Peptides Powder,Supports skin, hair, nails, and joint health,27.99,Beauty Supplements,https://placehold.co/600x400,GlowHealth,110
