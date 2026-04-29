@@ -1,68 +1,41 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useParams } from "next/navigation"
 import Image from "next/image"
-import { supabase } from "@/lib/supabase"
-
-import { Product } from "@/types/product"
 import { useCart } from "@/context/CartContext"
-import { PlanType } from "@/types/cart"
+import { Product } from "@/types/product"
 
 export default function ProductPage() {
   const { id } = useParams()
-
-  const [product, setProduct] = useState<Product | null>(null)
-  const [quantity, setQuantity] = useState(1)
-  const [plan, setPlan] = useState<PlanType>("one-time")
-  const [showSuccess, setShowSuccess] = useState(false)
-
   const { addToCart } = useCart()
 
-  /* FETCH */
-  useEffect(() => {
-    if (!id) return
+  const [plan, setPlan] = useState<"one-time" | "monthly">("one-time")
+  const [quantity, setQuantity] = useState(1)
+  const [showSuccess, setShowSuccess] = useState(false)
 
-    async function fetchProduct() {
-      const { data } = await supabase
-        .from("products")
-        .select("*")
-        .eq("id", Number(id))
-        .single()
-
-      setProduct(data)
-    }
-
-    fetchProduct()
-  }, [id])
-
-  /* ✅ EXIT EARLY */
-  if (!product) {
-    return (
-      <div className="p-10 text-gray-500">
-        Loading product...
-      </div>
-    )
+  // Mock product (replace with Supabase later)
+  const product: Product = {
+    id: String(id),
+    name: "Sample Product",
+    price: 29.99,
+    description: "High quality wellness supplement",
+    category: "Health",
+    image: "/images/placeholder.jpg"
   }
 
-  /* ✅ DEFINE HANDLER AFTER GUARD */
   const handleAddToCart = () => {
-    addToCart(productId: string, plan: PlanType, quantity: number)
-    
+    addToCart(product.id, plan, quantity)
+
     setShowSuccess(true)
     setTimeout(() => setShowSuccess(false), 2000)
   }
 
   return (
-    <div className="max-w-6xl mx-auto p-10 grid md:grid-cols-2 gap-10">
+    <div className="max-w-5xl mx-auto p-10">
 
-      {showSuccess && (
-        <div className="fixed top-5 right-5 bg-green-600 text-white px-5 py-3 rounded">
-          ✅ {product.name} added to cart
-        </div>
-      )}
-
-      <div className="relative w-full h-[400px]">
+      {/* PRODUCT IMAGE */}
+      <div className="relative w-full h-[400px] mb-6">
         <Image
           src={product.image}
           alt={product.name}
@@ -71,40 +44,61 @@ export default function ProductPage() {
         />
       </div>
 
-      <div>
-        <h1 className="text-3xl font-bold">{product.name}</h1>
-        <p className="text-gray-500">{product.category}</p>
+      {/* PRODUCT INFO */}
+      <h1 className="text-3xl font-bold">{product.name}</h1>
+      <p className="text-gray-500 mt-1">{product.category}</p>
 
-        <p className="text-2xl font-bold mt-3">
-          ${product.price.toFixed(2)}
-        </p>
+      <p className="text-xl font-semibold mt-3">
+        ${product.price.toFixed(2)}
+      </p>
+
+      <p className="mt-4 text-gray-700">
+        {product.description}
+      </p>
+
+      {/* PLAN SELECT */}
+      <div className="mt-6">
+        <label className="font-medium">Plan:</label>
 
         <select
+          className="border p-2 ml-2"
           value={plan}
           onChange={(e) =>
-            setPlan(e.target.value as PlanType)
+            setPlan(e.target.value as "one-time" | "monthly")
           }
-          className="mt-4 border p-2 rounded w-full"
         >
           <option value="one-time">One-time</option>
           <option value="monthly">Monthly</option>
-          <option value="bi-monthly">Bi-Monthly</option>
-          <option value="quarterly">Quarterly</option>
         </select>
-
-        <div className="flex gap-3 mt-4">
-          <button onClick={() => setQuantity(q => Math.max(1, q - 1))}>-</button>
-          <span>{quantity}</span>
-          <button onClick={() => setQuantity(q => q + 1)}>+</button>
-        </div>
-
-        <button
-          onClick={handleAddToCart}
-          className="mt-5 bg-blue-600 text-white px-6 py-3 rounded"
-        >
-          Add to Cart
-        </button>
       </div>
+
+      {/* QUANTITY */}
+      <div className="mt-4">
+        <label className="font-medium">Quantity:</label>
+
+        <input
+          type="number"
+          min={1}
+          className="border p-2 ml-2 w-20"
+          value={quantity}
+          onChange={(e) => setQuantity(Number(e.target.value))}
+        />
+      </div>
+
+      {/* ADD TO CART BUTTON */}
+      <button
+        onClick={handleAddToCart}
+        className="mt-6 bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700"
+      >
+        Add to Cart
+      </button>
+
+      {/* SUCCESS MESSAGE */}
+      {showSuccess && (
+        <p className="mt-4 text-green-600 font-medium">
+          Added to cart!
+        </p>
+      )}
     </div>
   )
 }
