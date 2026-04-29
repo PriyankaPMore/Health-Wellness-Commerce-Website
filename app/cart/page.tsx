@@ -16,12 +16,12 @@ export default function CartPage() {
         Your Cart
       </h1>
 
-      {/* EMPTY */}
+      {/* EMPTY STATE */}
       {cart.length === 0 && (
         <p className="text-gray-500">Cart is empty</p>
       )}
 
-      {/* ITEMS */}
+      {/* CART ITEMS */}
       {cart.map((item) => (
         <div
           key={`${item.productId}-${item.plan}`}
@@ -36,15 +36,17 @@ export default function CartPage() {
               Plan: {item.plan}
             </p>
 
-            <div className="flex gap-2 mt-2">
+            {/* QUANTITY CONTROLS */}
+            <div className="flex gap-2 mt-2 items-center">
+
               <button
                 onClick={() =>
                   updateQuantity(
                     item.productId,
-                    item.plan,
                     item.quantity - 1
                   )
                 }
+                className="px-2 border"
               >
                 -
               </button>
@@ -55,20 +57,20 @@ export default function CartPage() {
                 onClick={() =>
                   updateQuantity(
                     item.productId,
-                    item.plan
                     item.quantity + 1
                   )
                 }
+                className="px-2 border"
               >
                 +
               </button>
+
             </div>
           </div>
 
+          {/* REMOVE */}
           <button
-            onClick={() =>
-              removeFromCart(item.productId, item.plan)
-            }
+            onClick={() => removeFromCart(item.productId)}
             className="text-red-500"
           >
             Remove
@@ -76,7 +78,7 @@ export default function CartPage() {
         </div>
       ))}
 
-      {/* CHECKOUT BUTTON */}
+      {/* CHECKOUT */}
       {cart.length > 0 && (
         <div className="mt-10 border-t pt-6">
 
