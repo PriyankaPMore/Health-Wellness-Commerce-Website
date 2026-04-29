@@ -23,11 +23,11 @@ export default function ProductCard({ product }: Props) {
       {/* Image */}
       <div className="relative w-full h-48">
         <Image
-          src={product.image}
-          alt={product.name}
-          fill
-          className="object-cover rounded-lg"
-        />
+      src={product.image ?? "/images/placeholder.jpg"}
+      alt={product.name}
+      fill
+  className="object-cover rounded-lg"
+/>
       </div>
 
       {/* Info */}
