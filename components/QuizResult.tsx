@@ -11,7 +11,7 @@ export default function QuizResult({ recommendedStack }: Props) {
 
   const handleAddStack = () => {
     recommendedStack.forEach((product) => {
-      addToCart(product as any, "one-time", 1) // cast as Product type if needed
+      addToCart(product.id, "one-time", 1) // cast as Product type if needed
     })
   }
 
