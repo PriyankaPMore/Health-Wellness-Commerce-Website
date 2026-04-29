@@ -85,7 +85,7 @@ export default function QuizPage() {
 
   const handleAddStack = () => {
     recommendedStack.forEach((product) => {
-      addToCart(product, "One-time", 1)
+      addToCart(product.id, "One-time", 1)
     })
   }
 
