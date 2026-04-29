@@ -1,90 +1,77 @@
 "use client"
 
 import { useState } from "react"
-import { useRouter } from "next/navigation"
-import Link from "next/link"
 import { useAuth } from "@/context/AuthContext"
 
 export default function LoginPage() {
-
-  const { login } = useAuth()
-  const router = useRouter()
+  const { login, register } = useAuth()
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const [error, setError] = useState("")
+  const [mode, setMode] = useState<"login" | "register">("login")
 
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault()
+  const handleSubmit = () => {
+  if (!email || !password) return
 
-    if (!email || !password) {
-      setError("Please enter email and password")
-      return
-    }
-
-    login(email)
-
-    router.push("/")
+  if (mode === "login") {
+    login(email, password)
+  } else {
+    register(email, password)
   }
+}
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-6">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 to-blue-50">
 
-      <div className="bg-white shadow-lg rounded-lg p-10 w-full max-w-md">
+      <div className="w-full max-w-md bg-white shadow-xl rounded-2xl p-8">
 
-        <h1 className="text-3xl font-bold text-center mb-6 text-green-600">
-          Login
+        {/* HEADER */}
+        <h1 className="text-3xl font-bold text-center text-gray-800">
+          Health & Wellness
         </h1>
 
-        <p className="text-gray-600 text-center mb-8">
-          Access your health and wellness dashboard
+        <p className="text-center text-gray-500 mt-2 mb-6">
+          {mode === "login"
+            ? "Welcome back 👋"
+            : "Create your account"}
         </p>
 
-        <form onSubmit={handleLogin} className="flex flex-col gap-4 text-gray-500">
+        {/* EMAIL */}
+        <input
+          className="w-full border rounded-lg p-3 mb-3 focus:outline-none focus:ring-2 focus:ring-green-500"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
 
-          {/* Email */}
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="border rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-700"
-          />
+        {/* PASSWORD */}
+        <input
+          type="password"
+          className="w-full border rounded-lg p-3 mb-5 focus:outline-none focus:ring-2 focus:ring-green-500"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
 
-          {/* Password */}
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="border rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-700"
-          />
+        {/* BUTTON */}
+        <button
+          onClick={handleSubmit}
+          className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-medium transition"
+        >
+          {mode === "login" ? "Login" : "Create Account"}
+        </button>
 
-          {error && (
-            <p className="text-red-500 text-sm">{error}</p>
-          )}
-
-          {/* Login Button */}
-          <button
-            type="submit"
-            className="bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition-colors shadow-sm"
-          >
-            Login
-          </button>
-
-        </form>
-
-        {/* Browse products without login */}
-        <div className="text-center mt-6">
-
-          <Link
-            href="/products"
-            className="text-green-600 hover:underline"
-          >
-            Browse Products
-          </Link>
-
-        </div>
+        {/* SWITCH MODE */}
+        <p
+          className="text-center text-sm mt-4 text-blue-600 cursor-pointer"
+          onClick={() =>
+            setMode(mode === "login" ? "register" : "login")
+          }
+        >
+          {mode === "login"
+            ? "Don't have an account? Create one"
+            : "Already have an account? Login"}
+        </p>
 
       </div>
 

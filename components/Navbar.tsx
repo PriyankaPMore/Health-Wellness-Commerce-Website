@@ -32,7 +32,7 @@ export default function Navbar() {
             <Link href="/blog" className="hover:text-green-600 transition-colors">
               Blog
             </Link>
-            <Link href="/checkout" className="hover:text-green-600 transition-colors">
+            <Link href="/cart" className="hover:text-green-600">
               Cart ({cartCount})
             </Link>
             <button

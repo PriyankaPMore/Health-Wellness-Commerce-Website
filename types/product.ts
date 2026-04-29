@@ -1,14 +1,6 @@
-// types/product.ts
-export interface Product {
+export type Product = {
   id: number
   name: string
-  description: string
+  description?: string
   price: number
-  category: string
-  image: string
-  brand: string
-  stock: number
-
-  // NEW
-  subscriptionDiscount?: number // e.g. 0.1 for 10%
 }

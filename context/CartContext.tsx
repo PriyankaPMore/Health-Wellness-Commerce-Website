@@ -1,20 +1,20 @@
 "use client"
 
-import { createContext, useContext, useState, ReactNode } from "react"
-import { Product } from "@/types/product"
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  ReactNode,
+} from "react"
 
-// Cart item type
-export type CartItem = {
-  product: Product
-  quantity: number
-  subscription: string
-}
+import { CartItem, PlanType } from "@/types/cart"
 
-// Context type
 type CartContextType = {
   cart: CartItem[]
-  addToCart: (product: Product, quantity: number, subscription: string) => void
-  removeFromCart: (productId: string, subscription: string) => void
+  addToCart: (productId: number, plan: PlanType, quantity: number) => void
+  removeFromCart: (productId: number, plan: PlanType) => void
+  updateQuantity: (productId: number, plan: PlanType, quantity: number) => void
   clearCart: () => void
 }
 
@@ -23,46 +23,74 @@ const CartContext = createContext<CartContextType | undefined>(undefined)
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [cart, setCart] = useState<CartItem[]>([])
 
-  // Add or update cart item
-  const addToCart = (product: Product, quantity: number, subscription: string) => {
+  useEffect(() => {
+    const stored = localStorage.getItem("cart")
+    if (stored) setCart(JSON.parse(stored))
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cart))
+  }, [cart])
+
+  const addToCart = (productId: number, plan: PlanType, quantity: number) => {
     setCart((prev) => {
       const existing = prev.find(
-        (item) => item.product.id === product.id && item.subscription === subscription
+        (i) => i.productId === productId && i.plan === plan
       )
 
       if (existing) {
-        // Increment quantity
-        return prev.map((item) =>
-          item.product.id === product.id && item.subscription === subscription
-            ? { ...item, quantity: item.quantity + quantity }
-            : item
+        return prev.map((i) =>
+          i.productId === productId && i.plan === plan
+            ? { ...i, quantity: i.quantity + quantity }
+            : i
         )
-      } else {
-        return [...prev, { product, quantity, subscription }]
       }
+
+      return [...prev, { productId, plan, quantity }]
     })
   }
 
-  // Remove a specific item
-  const removeFromCart = (productId: string, subscription: string) => {
+  const removeFromCart = (productId: number, plan: PlanType) => {
     setCart((prev) =>
-      prev.filter((item) => !(item.product.id === productId && item.subscription === subscription))
+      prev.filter((i) => !(i.productId === productId && i.plan === plan))
     )
   }
 
-  // Clear all items
+  const updateQuantity = (
+    productId: number,
+    plan: PlanType,
+    quantity: number
+  ) => {
+    if (quantity < 1) return
+
+    setCart((prev) =>
+      prev.map((i) =>
+        i.productId === productId && i.plan === plan
+          ? { ...i, quantity }
+          : i
+      )
+    )
+  }
+
   const clearCart = () => setCart([])
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart }}>
+    <CartContext.Provider
+      value={{
+        cart,
+        addToCart,
+        removeFromCart,
+        updateQuantity,
+        clearCart,
+      }}
+    >
       {children}
     </CartContext.Provider>
   )
 }
 
-// Hook for consuming cart context
 export const useCart = () => {
-  const context = useContext(CartContext)
-  if (!context) throw new Error("useCart must be used within CartProvider")
-  return context
+  const ctx = useContext(CartContext)
+  if (!ctx) throw new Error("useCart must be used within CartProvider")
+  return ctx
 }

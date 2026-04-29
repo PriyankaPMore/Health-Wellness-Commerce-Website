@@ -3,7 +3,7 @@
 import { useState } from "react"
 import QuizResult from "@/components/QuizResult"
 import { useCart } from "@/context/CartContext"
-import { Product } from "@/lib/products"
+import { Product } from "@/lib/product"
 
 // Define your products
 const magnesium: Product = {

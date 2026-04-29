@@ -5,151 +5,191 @@ import { useCart } from "@/context/CartContext"
 import CheckoutSteps from "@/components/CheckoutSteps"
 
 export default function CheckoutPage() {
-  const { cart, clearCart } = useCart()
-  const [step, setStep] = useState(1)
+  const { cart } = useCart()
 
-  const [shipping, setShipping] = useState({
-    name: "",
-    address: "",
-    city: "",
-    postalCode: "",
-    country: "",
-  })
+  const [step, setStep] = useState<1 | 2 | 3>(1)
+  const [loading, setLoading] = useState(false)
 
-  const [delivery, setDelivery] = useState("standard")
+  // SHIPPING (LOCAL ONLY)
+  const [address, setAddress] = useState("")
+  const [shippingMethod, setShippingMethod] =
+    useState<"standard" | "express">("standard")
 
-  const nextStep = () => setStep((prev) => Math.min(prev + 1, 3))
-  const prevStep = () => setStep((prev) => Math.max(prev - 1, 1))
+  const nextStep = () =>
+    setStep((prev) => (prev + 1) as 1 | 2 | 3)
 
-  const handleShippingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setShipping({ ...shipping, [e.target.name]: e.target.value })
-  }
+  // -------------------------
+  // PRICING (TEMP)
+  // -------------------------
+  const subtotal = cart.reduce((sum, item) => {
+    const price = 10
+    return sum + price * item.quantity
+  }, 0)
 
-  const handlePlaceOrder = () => {
-    alert("Order placed successfully!")
-    clearCart() // clear the cart
-    setStep(1) // reset steps to 1
+  const shippingCost =
+    shippingMethod === "express" ? 15 : 5
+
+  const total = subtotal + shippingCost
+
+  // -------------------------
+  // STRIPE CHECKOUT
+  // -------------------------
+  const handlePayNow = async () => {
+    try {
+      setLoading(true)
+
+      const payload = cart.map((item) => ({
+        name: `Product ${item.productId}`,
+        price: 10,
+        quantity: item.quantity,
+      }))
+
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ cart: payload }),
+      })
+
+      const data = await res.json()
+
+      if (!res.ok) throw new Error(data.error)
+
+      window.location.href = data.url
+    } catch (err) {
+      console.error(err)
+      alert("Checkout failed")
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
-    <div className="container mx-auto py-16 px-6">
-      <h1 className="text-4xl font-bold mb-8 text-center">Checkout</h1>
+    <div className="max-w-4xl mx-auto p-8">
 
-      {/* Step Indicator */}
+      {/* STEP INDICATOR */}
       <CheckoutSteps step={step} />
 
-      {cart.length === 0 ? (
-        <p className="text-center mt-6">Your cart is empty.</p>
-      ) : (
-        <div className="mt-6 bg-white p-6 rounded-lg shadow-md text-gray-700">
-          {step === 1 && (
-            <div>
-              <h2 className="text-2xl font-bold mb-4">Your Cart</h2>
-              <ul className="space-y-2">
-                {cart.map((item, index) => (
-                  <li key={index} className="flex justify-between border-b pb-2">
-                    <span>
-                      {item.product.name} x {item.quantity}{" "}
-                      {item.subscription !== "One-time" && `(${item.subscription})`}
-                    </span>
-                    <span>${(item.product.price * item.quantity).toFixed(2)}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
+      {/* ===================== */}
+      {/* STEP 1 - REVIEW CART */}
+      {/* ===================== */}
+      {step === 1 && (
+        <div>
+          <h2 className="text-xl font-bold mb-4">
+            Review Cart
+          </h2>
 
-          {step === 2 && (
-            <div>
-              <h2 className="text-2xl font-bold mb-4">Shipping Address</h2>
-              <div className="space-y-4">
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="Full Name"
-                  value={shipping.name}
-                  onChange={handleShippingChange}
-                  className="w-full border rounded-md p-2"
-                />
-                <input
-                  type="text"
-                  name="address"
-                  placeholder="Address"
-                  value={shipping.address}
-                  onChange={handleShippingChange}
-                  className="w-full border rounded-md p-2"
-                />
-                <input
-                  type="text"
-                  name="city"
-                  placeholder="City"
-                  value={shipping.city}
-                  onChange={handleShippingChange}
-                  className="w-full border rounded-md p-2"
-                />
-                <input
-                  type="text"
-                  name="postalCode"
-                  placeholder="Postal Code"
-                  value={shipping.postalCode}
-                  onChange={handleShippingChange}
-                  className="w-full border rounded-md p-2"
-                />
-                <input
-                  type="text"
-                  name="country"
-                  placeholder="Country"
-                  value={shipping.country}
-                  onChange={handleShippingChange}
-                  className="w-full border rounded-md p-2"
-                />
+          <div className="border p-4 rounded space-y-2">
+            {cart.map((item) => (
+              <div
+                key={`${item.productId}-${item.plan}`}
+                className="flex justify-between"
+              >
+                <span>
+                  Product #{item.productId} × {item.quantity}
+                </span>
+
+                <span>
+                  ${(10 * item.quantity).toFixed(2)}
+                </span>
               </div>
-            </div>
-          )}
-
-          {step === 3 && (
-            <div>
-              <h2 className="text-2xl font-bold mb-4">Delivery Method</h2>
-              <select
-                value={delivery}
-                onChange={(e) => setDelivery(e.target.value)}
-                className="w-full border rounded-md p-2"
-              >
-                <option value="standard">Standard Shipping</option>
-                <option value="express">Express Shipping</option>
-                <option value="overnight">Overnight Shipping</option>
-              </select>
-            </div>
-          )}
-
-          {/* Navigation Buttons */}
-          <div className="flex justify-between mt-6">
-            {step > 1 && (
-              <button
-                onClick={prevStep}
-                className="bg-gray-300 px-4 py-2 rounded-md hover:bg-gray-400 transition-colors"
-              >
-                Back
-              </button>
-            )}
-            {step < 3 ? (
-              <button
-                onClick={nextStep}
-                className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors ml-auto"
-              >
-                Next
-              </button>
-            ) : (
-              <button
-                onClick={handlePlaceOrder}
-                className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors ml-auto"
-              >
-                Place Order
-              </button>
-            )}
+            ))}
           </div>
+
+          <div className="mt-4 font-semibold">
+            Subtotal: ${subtotal.toFixed(2)}
+          </div>
+
+          <button
+            onClick={nextStep}
+            className="mt-6 bg-blue-600 text-white px-6 py-2 rounded"
+          >
+            Continue
+          </button>
         </div>
       )}
+
+      {/* ===================== */}
+      {/* STEP 2 - SHIPPING (UI ONLY) */}
+      {/* ===================== */}
+      {step === 2 && (
+        <div>
+          <h2 className="text-xl font-bold mb-4">
+            Shipping Details
+          </h2>
+
+          {/* ADDRESS */}
+          <input
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+            placeholder="Enter shipping address"
+            className="w-full border p-2 rounded mb-4"
+          />
+
+          {/* METHOD */}
+          <select
+            value={shippingMethod}
+            onChange={(e) =>
+              setShippingMethod(
+                e.target.value as "standard" | "express"
+              )
+            }
+            className="w-full border p-2 rounded"
+          >
+            <option value="standard">
+              Standard ($5)
+            </option>
+            <option value="express">
+              Express ($15)
+            </option>
+          </select>
+
+          <button
+            onClick={nextStep}
+            className="mt-6 bg-blue-600 text-white px-6 py-2 rounded"
+          >
+            Continue to Payment
+          </button>
+        </div>
+      )}
+
+      {/* ===================== */}
+      {/* STEP 3 - PAYMENT */}
+      {/* ===================== */}
+      {step === 3 && (
+        <div>
+          <h2 className="text-xl font-bold mb-4">
+            Order Summary
+          </h2>
+
+          <div className="border p-4 rounded space-y-2">
+            <div className="flex justify-between">
+              <span>Items</span>
+              <span>${subtotal.toFixed(2)}</span>
+            </div>
+
+            <div className="flex justify-between">
+              <span>Shipping</span>
+              <span>${shippingCost.toFixed(2)}</span>
+            </div>
+
+            <div className="flex justify-between font-bold border-t pt-2">
+              <span>Total</span>
+              <span>${total.toFixed(2)}</span>
+            </div>
+          </div>
+
+          <button
+            onClick={handlePayNow}
+            disabled={loading}
+            className="w-full mt-6 bg-green-600 text-white py-3 rounded-lg"
+          >
+            {loading ? "Processing..." : "Pay Now"}
+          </button>
+        </div>
+      )}
+
     </div>
   )
 }

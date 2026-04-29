@@ -1,55 +1,54 @@
 "use client"
 
-import { useState } from "react"
+import Image from "next/image"
+import { useRouter } from "next/navigation"
+import { Product } from "@/types/product"
 
-export default function NewsletterForm() {
-  const [email, setEmail] = useState("")
-  const [message, setMessage] = useState("")
-  const [loading, setLoading] = useState(false)
+interface Props {
+  product: Product
+}
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
-    setMessage("")
+export default function ProductCard({ product }: Props) {
+  const router = useRouter()
 
-    try {
-      const res = await fetch("/api/newsletter", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      })
-      const data = await res.json()
-      if (res.ok) {
-        setMessage(data.message)
-        setEmail("")
-      } else {
-        setMessage(data.error)
-      }
-    } catch (err) {
-      setMessage("Something went wrong.")
-    }
-
-    setLoading(false)
+  const handleClick = () => {
+    router.push(`/products/${product.id}`)
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4 items-center justify-center">
-      <input
-        type="email"
-        placeholder="Enter your email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        className="border p-3 rounded-md shadow-sm flex-1 focus:outline-none focus:ring-2 focus:ring-green-500"
-        required
-      />
-    <button
-      type="submit"
-      disabled={loading}
-      className="bg-green-600 text-white px-6 py-3 rounded-md shadow hover:bg-green-700 transition-colors w-full sm:w-auto"
+    <div
+      onClick={handleClick}
+      className="bg-white rounded-xl shadow-md hover:shadow-lg transition p-4 flex flex-col cursor-pointer text-black"
     >
-      {loading ? "Submitting..." : "Subscribe"}
-    </button>
-    {message && <p className="mt-2 text-sm text-gray-700 text-center sm:text-left">{message}</p>}
-    </form>
+      {/* Image */}
+      <div className="relative w-full h-48">
+        <Image
+          src={product.image}
+          alt={product.name}
+          fill
+          className="object-cover rounded-lg"
+        />
+      </div>
+
+      {/* Info */}
+      <h2 className="mt-3 font-semibold text-lg">{product.name}</h2>
+      <p className="text-sm text-gray-500">{product.category}</p>
+
+      {/* Price */}
+      <p className="mt-2 font-bold text-blue-600">
+        ${product.price.toFixed(2)}
+      </p>
+
+      {/* CTA */}
+      <button
+        onClick={(e) => {
+          e.stopPropagation() // prevents double navigation
+          handleClick()
+        }}
+        className="mt-auto bg-gray-900 text-white py-2 rounded-lg hover:bg-black"
+      >
+        Learn More
+      </button>
+    </div>
   )
 }

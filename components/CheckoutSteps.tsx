@@ -3,19 +3,12 @@ type Props = {
 }
 
 export default function CheckoutSteps({ step }: Props) {
-
-  const steps = [
-    "Cart",
-    "Shipping",
-    "Delivery",
-    "Payment"
-  ]
+  const steps = ["Cart", "Shipping", "Payment"]
 
   return (
-    <div className="flex justify-between mb-10">
+    <div className="flex justify-between mb-8">
 
       {steps.map((label, index) => {
-
         const active = index + 1 <= step
 
         return (
@@ -23,19 +16,15 @@ export default function CheckoutSteps({ step }: Props) {
             key={label}
             className="flex flex-col items-center flex-1"
           >
-
             <div
-              className={`w-8 h-8 flex items-center justify-center rounded-full text-white
-                ${active ? "bg-green-600" : "bg-gray-300"}
-              `}
+              className={`w-8 h-8 flex items-center justify-center rounded-full text-white ${
+                active ? "bg-green-600" : "bg-gray-300"
+              }`}
             >
               {index + 1}
             </div>
 
-            <p className="text-sm mt-2">
-              {label}
-            </p>
-
+            <p className="text-sm mt-2">{label}</p>
           </div>
         )
       })}

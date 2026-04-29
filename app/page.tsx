@@ -1,105 +1,79 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
 import { supabase } from "@/lib/supabase"
-import ProductCard from "@/components/ProductCard"
 import { Product } from "@/types/product"
+
+import Hero from "@/components/Hero"
+import CategorySection from "@/components/CategorySection"
+import ProductGrid from "@/components/ProductGrid"
+import TrustSection from "@/components/TrustSection"
+import Footer from "@/components/Footer"
 
 export default function Home() {
   const [products, setProducts] = useState<Product[]>([])
-  const [category, setCategory] = useState<string>("All")
-  const [search, setSearch] = useState<string>("")
-  const [loading, setLoading] = useState<boolean>(true)
+  const [loading, setLoading] = useState(true)
+
+  const router = useRouter()
 
   useEffect(() => {
     fetchProducts()
   }, [])
 
   async function fetchProducts() {
-    setLoading(true)
-
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from("products")
       .select("*")
 
-    if (error) {
-      console.error("Supabase error:", error)
-    } else {
-      console.log("Fetched products:", data) // 🔥 DEBUG
-      setProducts(data as Product[])
-    }
-
+    setProducts(data || [])
     setLoading(false)
   }
 
-  // ✅ CLIENT-SIDE FILTERING (more reliable)
-  const filteredProducts = products.filter((product) => {
-    const matchesCategory =
-      category === "All" || product.category === category
-
-    const matchesSearch = product.name
-      .toLowerCase()
-      .includes(search.toLowerCase())
-
-    return matchesCategory && matchesSearch
-  })
-
-  const categories: string[] = [
-    "All",
-    "Protein",
-    "Vitamins",
-    "Minerals",
-    "Probiotics",
-    "Herbal Supplements",
-    "Performance",
-    "Hydration",
-    "Weight Management",
-  ]
+  const featuredProducts = [...products]
+    .sort(() => 0.5 - Math.random())
+    .slice(0, 4)
 
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-6">Health Store</h1>
+    <div className="bg-gray-100 min-h-screen text-gray-800 font-sans">
 
-      {/* Search */}
-      <input
-        type="text"
-        placeholder="Search products..."
-        className="w-full p-3 border rounded-lg mb-6"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      />
+      <div className="max-w-7xl mx-auto px-6 py-6">
 
-      {/* Categories */}
-      <div className="flex gap-3 mb-6 flex-wrap">
-        {categories.map((cat) => (
-          <button
-            key={cat}
-            onClick={() => setCategory(cat)}
-            className={`px-4 py-2 rounded-lg ${
-              category === cat
-                ? "bg-blue-600 text-white"
-                : "bg-gray-200"
-            }`}
-          >
-            {cat}
-          </button>
-        ))}
+        {/* HERO */}
+        <Hero />
+
+        {/* CATEGORY GRID */}
+        <CategorySection />
+
+        {/* FEATURED PRODUCTS */}
+        <section className="mt-10">
+          <h2 className="text-2xl font-bold mb-6">
+            Featured Products
+          </h2>
+
+          {loading ? (
+            <p>Loading products...</p>
+          ) : (
+            <ProductGrid products={featuredProducts} />
+          )}
+
+          {/* VIEW ALL BUTTON */}
+          <div className="mt-6 text-center">
+            <button
+              onClick={() => router.push("/products")}
+              className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition"
+            >
+              View All Products
+            </button>
+          </div>
+        </section>
+
+        {/* TRUST */}
+        <TrustSection />
+
       </div>
 
-      {/* Loading */}
-      {loading && <p>Loading products...</p>}
-
-      {/* Empty State */}
-      {!loading && filteredProducts.length === 0 && (
-        <p>No products found.</p>
-      )}
-
-      {/* Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {filteredProducts.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-      </div>
+      <Footer />
     </div>
   )
 }

@@ -1,55 +1,94 @@
 "use client"
 
+import { useRouter } from "next/navigation"
 import { useCart } from "@/context/CartContext"
-import Link from "next/link"
 
 export default function CartPage() {
-  const { cart } = useCart()
+  const { cart, removeFromCart, updateQuantity } = useCart()
+  const router = useRouter()
 
-  const total = cart.reduce(
-    (sum, item) => sum + item.product.price,
-    0
-  )
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0)
 
   return (
-    <div className="container mx-auto px-6 py-20 max-w-xl">
+    <div className="max-w-5xl mx-auto p-8">
 
-      <h1 className="text-3xl font-bold mb-10 text-center">
-        Cart Summary
+      <h1 className="text-2xl font-bold mb-6">
+        Your Cart
       </h1>
 
-      <ul className="space-y-4">
+      {/* EMPTY */}
+      {cart.length === 0 && (
+        <p className="text-gray-500">Cart is empty</p>
+      )}
 
-        {cart.map((item, index) => (
-          <li
-            key={index}
-            className="flex justify-between border-b pb-3"
+      {/* ITEMS */}
+      {cart.map((item) => (
+        <div
+          key={`${item.productId}-${item.plan}`}
+          className="flex justify-between border-b py-4"
+        >
+          <div>
+            <p className="font-semibold">
+              Product #{item.productId}
+            </p>
+
+            <p className="text-sm text-gray-500">
+              Plan: {item.plan}
+            </p>
+
+            <div className="flex gap-2 mt-2">
+              <button
+                onClick={() =>
+                  updateQuantity(
+                    item.productId,
+                    item.plan,
+                    item.quantity - 1
+                  )
+                }
+              >
+                -
+              </button>
+
+              <span>{item.quantity}</span>
+
+              <button
+                onClick={() =>
+                  updateQuantity(
+                    item.productId,
+                    item.plan,
+                    item.quantity + 1
+                  )
+                }
+              >
+                +
+              </button>
+            </div>
+          </div>
+
+          <button
+            onClick={() =>
+              removeFromCart(item.productId, item.plan)
+            }
+            className="text-red-500"
           >
-            <span>
-              {item.product.name} ({item.subscription})
-            </span>
+            Remove
+          </button>
+        </div>
+      ))}
 
-            <span>
-              ${item.product.price.toFixed(2)}
-            </span>
-          </li>
-        ))}
+      {/* CHECKOUT BUTTON */}
+      {cart.length > 0 && (
+        <div className="mt-10 border-t pt-6">
 
-      </ul>
+          <button
+            onClick={() => router.push("/checkout")}
+            className="w-full bg-blue-600 text-white py-3 rounded-lg"
+          >
+            Proceed to Checkout ({totalItems})
+          </button>
 
-      <div className="mt-8 flex justify-between font-semibold">
-
-        <span>Total</span>
-        <span>${total.toFixed(2)}</span>
-
-      </div>
-
-      <Link
-        href="/checkout"
-        className="block mt-8 bg-green-600 text-white text-center py-3 rounded-md hover:bg-green-700"
-      >
-        Proceed to Checkout
-      </Link>
+        </div>
+      )}
 
     </div>
   )
