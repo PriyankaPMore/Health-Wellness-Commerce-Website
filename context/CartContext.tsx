@@ -1,23 +1,20 @@
 "use client"
 
 import { createContext, useContext, useState } from "react"
-import { CartItem, PlanType } from "@/types/cart"
-
-type CartContextType = {
-  cart: CartItem[]
-  addToCart: (productId: string, plan: PlanType, quantity: number) => void
-  removeFromCart: (productId: string) => void
-  clearCart: () => void
-}
+import { CartItem, CartContextType, PlanType } from "@/types/cart"
 
 const CartContext = createContext<CartContextType | null>(null)
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([])
 
-  const addToCart = (productId: string, plan: PlanType, quantity: number) => {
+  const addToCart = (
+    productId: string,
+    plan: PlanType,
+    quantity: number
+  ) => {
     setCart((prev) => {
-      const existing = prev.find((item) => item.productId === productId)
+      const existing = prev.find((i) => i.productId === productId)
 
       if (existing) {
         return prev.map((item) =>
@@ -27,7 +24,16 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         )
       }
 
-      return [...prev, { productId, plan, quantity } as CartItem]
+      return [
+        ...prev,
+        {
+          productId,
+          plan,
+          quantity,
+          name: "",
+          price: 0
+        }
+      ]
     })
   }
 
@@ -35,13 +41,42 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     setCart((prev) => prev.filter((item) => item.productId !== productId))
   }
 
+  const updateQuantity = (productId: string, quantity: number) => {
+    if (quantity <= 0) {
+      removeFromCart(productId)
+      return
+    }
+
+    setCart((prev) =>
+      prev.map((item) =>
+        item.productId === productId
+          ? { ...item, quantity }
+          : item
+      )
+    )
+  }
+
   const clearCart = () => setCart([])
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart }}>
+    <CartContext.Provider
+      value={{
+        cart,
+        addToCart,
+        removeFromCart,
+        updateQuantity,
+        clearCart
+      }}
+    >
       {children}
     </CartContext.Provider>
   )
+}
+
+export function useCart() {
+  const context = useContext(CartContext)
+  if (!context) throw new Error("useCart must be used inside CartProvider")
+  return context
 }
 
 export const useCart = () => {
