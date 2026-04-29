@@ -47,8 +47,8 @@ export default function ProductPage() {
 
   /* ✅ DEFINE HANDLER AFTER GUARD */
   const handleAddToCart = () => {
-    addToCart(product.id, plan, quantity)
-
+    addToCart(productId: string, plan: PlanType, quantity: number)
+    
     setShowSuccess(true)
     setTimeout(() => setShowSuccess(false), 2000)
   }
