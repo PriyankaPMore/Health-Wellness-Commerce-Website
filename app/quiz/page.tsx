@@ -7,7 +7,7 @@ import { Product } from "@/lib/product"
 
 // Define your products
 const magnesium: Product = {
-  id: "magnesium",
+  id: "1",
   name: "Magnesium",
   price: 12.99,
   description: "Supports sleep and muscle recovery",
@@ -15,7 +15,7 @@ const magnesium: Product = {
 }
 
 const vitaminD: Product = {
-  id: "vitamin-d",
+  id: "2",
   name: "Vitamin D",
   price: 9.99,
   description: "Supports immune and bone health",
@@ -23,7 +23,7 @@ const vitaminD: Product = {
 }
 
 const omega3: Product = {
-  id: "omega3",
+  id: "3",
   name: "Omega 3",
   price: 15.99,
   description: "Supports heart and brain health",
