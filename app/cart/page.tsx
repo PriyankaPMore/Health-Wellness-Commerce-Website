@@ -41,7 +41,6 @@ export default function CartPage() {
                 onClick={() =>
                   updateQuantity(
                     item.productId,
-                    item.plan,
                     item.quantity - 1
                   )
                 }
@@ -55,7 +54,6 @@ export default function CartPage() {
                 onClick={() =>
                   updateQuantity(
                     item.productId,
-                    item.plan,
                     item.quantity + 1
                   )
                 }
