@@ -72,7 +72,7 @@ export default function CartPage() {
 
           {/* REMOVE */}
           <button
-            onClick={() => removeFromCart(item.productId, item.plan)}
+            onClick={() => removeFromCart(item.productId)}
             className="text-red-500"
           >
             Remove
