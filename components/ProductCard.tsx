@@ -15,7 +15,6 @@ export default function ProductCard({ product }: Props) {
     <div
       onClick={() => router.push(`/products/${product.id}`)}
       className="bg-white rounded-xl shadow-md hover:shadow-lg transition duration-200 p-4 flex flex-col h-full cursor-pointer hover:scale-[1.02]"
-    >
       {/* IMAGE */}
       <div className="relative w-full h-48 mb-3">
       <Image
@@ -23,9 +22,7 @@ export default function ProductCard({ product }: Props) {
   alt={product.name}
   fill
   className="object-cover rounded-lg"
-/>
-          className="object-cover rounded-lg"
-        />
+      />
       </div>
 
       {/* CONTENT */}
