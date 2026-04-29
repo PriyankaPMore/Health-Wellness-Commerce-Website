@@ -43,6 +43,7 @@ export default function CartPage() {
                 onClick={() =>
                   updateQuantity(
                     item.productId,
+                    item.plan,
                     item.quantity - 1
                   )
                 }
@@ -57,6 +58,7 @@ export default function CartPage() {
                 onClick={() =>
                   updateQuantity(
                     item.productId,
+                    item.plan,
                     item.quantity + 1
                   )
                 }
@@ -70,7 +72,7 @@ export default function CartPage() {
 
           {/* REMOVE */}
           <button
-            onClick={() => removeFromCart(item.productId)}
+            onClick={() => removeFromCart(item.productId, item.plan)}
             className="text-red-500"
           >
             Remove
